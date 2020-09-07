@@ -9,7 +9,7 @@ import (
 	"github.com/dghubble/oauth1"
 )
 
-//access control creds
+//Credentials for Auth
 type Credentials struct {
 	ConsumerKey       string
 	ConsumerSecret    string
@@ -57,8 +57,9 @@ func main() {
 		log.Println(err)
 	}
 
-	// Print out the pointer to our client
-	// for now so it doesn't throw errors
-	fmt.Printf("%+v\n", client)
+	tweet, resp, err := client.Statuses.Update("Hey! This is a tweet from a bot that I'm building with Go Programming language. #golang", nil)
+
+	log.Printf("%+v\n", resp)
+	log.Printf("%+v\n", tweet)
 
 }
