@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
@@ -34,8 +35,7 @@ func getClient(creds *Credentials) (*twitter.Client, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	log.Printf("User's ACCOUNT:\n%+v\n", user)
+	_ = user
 	return client, nil
 
 }
@@ -49,7 +49,7 @@ func main() {
 		ConsumerSecret:    os.Getenv("CONSUMER_SECRET"),
 	}
 
-	fmt.Printf("%+v\n", creds)
+	// fmt.Printf("%+v\n", creds)
 
 	client, err := getClient(&creds)
 	if err != nil {
@@ -57,9 +57,13 @@ func main() {
 		log.Println(err)
 	}
 
-	tweet, resp, err := client.Statuses.Update("Hey! This is a tweet from a bot that I'm building with Go Programming language. #golang", nil)
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter Tweet: ")
+	newTweet, _ := reader.ReadString('\n')
+
+	tweet, resp, err := client.Statuses.Update(newTweet, nil)
 
 	log.Printf("%+v\n", resp)
-	log.Printf("%+v\n", tweet)
+	log.Printf("%+v SUCCESSFULLY TWEETED!!!!!!\n", tweet)
 
 }
